@@ -21,6 +21,7 @@ namespace TT_WebAPI.Models
         }
     
         public int ToolID { get; set; }
+        public Nullable<int> BrandID { get; set; }
         public string ToolName { get; set; }
         public Nullable<bool> Decomissioned { get; set; }
         public string picFileName { get; set; }

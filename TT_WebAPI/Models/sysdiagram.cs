@@ -12,13 +12,12 @@ namespace TT_WebAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class LoanTool
+    public partial class sysdiagram
     {
-        public int LoanToolID { get; set; }
-        public Nullable<int> LoanID { get; set; }
-        public Nullable<int> ToolID { get; set; }
-    
-        public virtual Loan Loan { get; set; }
-        public virtual Tool Tool { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

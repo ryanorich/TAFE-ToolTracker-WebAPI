@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ToolTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ToolTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Borrower">
           <Key>
             <PropertyRef Name="BorrowerID" />
@@ -36,6 +36,16 @@
           <Property Name="LoanToolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LoanID" Type="int" />
           <Property Name="ToolID" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Tool">
           <Key>
@@ -123,6 +133,7 @@
           <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Loan" EntityType="Self.Loan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoanTool" EntityType="Self.LoanTool" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tool" EntityType="Self.Tool" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Workspace" EntityType="Self.Workspace" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Loan__BorrowerID__2C3393D0" Association="Self.FK__Loan__BorrowerID__2C3393D0">
@@ -146,18 +157,46 @@
             <End Role="Tool" EntitySet="Tool" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ToolTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ToolTrackerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Borrowers" EntityType="ToolTrackerModel.Borrower" />
+          <EntitySet Name="Brands" EntityType="ToolTrackerModel.Brand" />
+          <EntitySet Name="Loans" EntityType="ToolTrackerModel.Loan" />
+          <EntitySet Name="LoanTools" EntityType="ToolTrackerModel.LoanTool" />
+          <EntitySet Name="sysdiagrams" EntityType="ToolTrackerModel.sysdiagram" />
+          <EntitySet Name="Tools" EntityType="ToolTrackerModel.Tool" />
+          <EntitySet Name="Workspaces" EntityType="ToolTrackerModel.Workspace" />
+          <AssociationSet Name="FK__Loan__BorrowerID__2C3393D0" Association="ToolTrackerModel.FK__Loan__BorrowerID__2C3393D0">
+            <End Role="Borrower" EntitySet="Borrowers" />
+            <End Role="Loan" EntitySet="Loans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tool__BrandID__29572725" Association="ToolTrackerModel.FK__Tool__BrandID__29572725">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="Tool" EntitySet="Tools" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Loan__WorkspaceI__2D27B809" Association="ToolTrackerModel.FK__Loan__WorkspaceI__2D27B809">
+            <End Role="Workspace" EntitySet="Workspaces" />
+            <End Role="Loan" EntitySet="Loans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanTool__LoanID__300424B4" Association="ToolTrackerModel.FK__LoanTool__LoanID__300424B4">
+            <End Role="Loan" EntitySet="Loans" />
+            <End Role="LoanTool" EntitySet="LoanTools" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanTool__ToolID__30F848ED" Association="ToolTrackerModel.FK__LoanTool__ToolID__30F848ED">
+            <End Role="Tool" EntitySet="Tools" />
+            <End Role="LoanTool" EntitySet="LoanTools" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Borrower">
           <Key>
             <PropertyRef Name="BorrowerID" />
           </Key>
           <Property Name="BorrowerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BorrowerName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Loans" Relationship="Self.FK__Loan__BorrowerID__2C3393D0" FromRole="Borrower" ToRole="Loan" />
+          <NavigationProperty Name="Loans" Relationship="ToolTrackerModel.FK__Loan__BorrowerID__2C3393D0" FromRole="Borrower" ToRole="Loan" />
         </EntityType>
         <EntityType Name="Brand">
           <Key>
@@ -165,37 +204,52 @@
           </Key>
           <Property Name="BrandID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BrandName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Tools" Relationship="Self.FK__Tool__BrandID__29572725" FromRole="Brand" ToRole="Tool" />
+          <NavigationProperty Name="Tools" Relationship="ToolTrackerModel.FK__Tool__BrandID__29572725" FromRole="Brand" ToRole="Tool" />
         </EntityType>
         <EntityType Name="Loan">
           <Key>
             <PropertyRef Name="LoanID" />
           </Key>
           <Property Name="LoanID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BorrowerID" Type="Int32" />
+          <Property Name="WorkspaceID" Type="Int32" />
           <Property Name="DateBorrowed" Type="DateTime" Precision="0" />
           <Property Name="DateReturned" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Borrower" Relationship="Self.FK__Loan__BorrowerID__2C3393D0" FromRole="Loan" ToRole="Borrower" />
-          <NavigationProperty Name="Workspace" Relationship="Self.FK__Loan__WorkspaceI__2D27B809" FromRole="Loan" ToRole="Workspace" />
-          <NavigationProperty Name="LoanTools" Relationship="Self.FK__LoanTool__LoanID__300424B4" FromRole="Loan" ToRole="LoanTool" />
+          <NavigationProperty Name="Borrower" Relationship="ToolTrackerModel.FK__Loan__BorrowerID__2C3393D0" FromRole="Loan" ToRole="Borrower" />
+          <NavigationProperty Name="Workspace" Relationship="ToolTrackerModel.FK__Loan__WorkspaceI__2D27B809" FromRole="Loan" ToRole="Workspace" />
+          <NavigationProperty Name="LoanTools" Relationship="ToolTrackerModel.FK__LoanTool__LoanID__300424B4" FromRole="Loan" ToRole="LoanTool" />
         </EntityType>
         <EntityType Name="LoanTool">
           <Key>
             <PropertyRef Name="LoanToolID" />
           </Key>
           <Property Name="LoanToolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Loan" Relationship="Self.FK__LoanTool__LoanID__300424B4" FromRole="LoanTool" ToRole="Loan" />
-          <NavigationProperty Name="Tool" Relationship="Self.FK__LoanTool__ToolID__30F848ED" FromRole="LoanTool" ToRole="Tool" />
+          <Property Name="LoanID" Type="Int32" />
+          <Property Name="ToolID" Type="Int32" />
+          <NavigationProperty Name="Loan" Relationship="ToolTrackerModel.FK__LoanTool__LoanID__300424B4" FromRole="LoanTool" ToRole="Loan" />
+          <NavigationProperty Name="Tool" Relationship="ToolTrackerModel.FK__LoanTool__ToolID__30F848ED" FromRole="LoanTool" ToRole="Tool" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Tool">
           <Key>
             <PropertyRef Name="ToolID" />
           </Key>
           <Property Name="ToolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandID" Type="Int32" />
           <Property Name="ToolName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="Decomissioned" Type="Boolean" />
           <Property Name="picFileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Brand" Relationship="Self.FK__Tool__BrandID__29572725" FromRole="Tool" ToRole="Brand" />
-          <NavigationProperty Name="LoanTools" Relationship="Self.FK__LoanTool__ToolID__30F848ED" FromRole="Tool" ToRole="LoanTool" />
+          <NavigationProperty Name="Brand" Relationship="ToolTrackerModel.FK__Tool__BrandID__29572725" FromRole="Tool" ToRole="Brand" />
+          <NavigationProperty Name="LoanTools" Relationship="ToolTrackerModel.FK__LoanTool__ToolID__30F848ED" FromRole="Tool" ToRole="LoanTool" />
         </EntityType>
         <EntityType Name="Workspace">
           <Key>
@@ -203,60 +257,72 @@
           </Key>
           <Property Name="WorkspaceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="WorkspaceName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Loans" Relationship="Self.FK__Loan__WorkspaceI__2D27B809" FromRole="Workspace" ToRole="Loan" />
+          <NavigationProperty Name="Loans" Relationship="ToolTrackerModel.FK__Loan__WorkspaceI__2D27B809" FromRole="Workspace" ToRole="Loan" />
         </EntityType>
         <Association Name="FK__Loan__BorrowerID__2C3393D0">
-          <End Role="Borrower" Type="Self.Borrower" Multiplicity="0..1" />
-          <End Role="Loan" Type="Self.Loan" Multiplicity="*" />
+          <End Type="ToolTrackerModel.Borrower" Role="Borrower" Multiplicity="0..1" />
+          <End Type="ToolTrackerModel.Loan" Role="Loan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Borrower">
+              <PropertyRef Name="BorrowerID" />
+            </Principal>
+            <Dependent Role="Loan">
+              <PropertyRef Name="BorrowerID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK__Tool__BrandID__29572725">
-          <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
-          <End Role="Tool" Type="Self.Tool" Multiplicity="*" />
+          <End Type="ToolTrackerModel.Brand" Role="Brand" Multiplicity="0..1" />
+          <End Type="ToolTrackerModel.Tool" Role="Tool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="BrandID" />
+            </Principal>
+            <Dependent Role="Tool">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK__Loan__WorkspaceI__2D27B809">
-          <End Role="Workspace" Type="Self.Workspace" Multiplicity="0..1" />
-          <End Role="Loan" Type="Self.Loan" Multiplicity="*" />
+          <End Type="ToolTrackerModel.Workspace" Role="Workspace" Multiplicity="0..1" />
+          <End Type="ToolTrackerModel.Loan" Role="Loan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workspace">
+              <PropertyRef Name="WorkspaceID" />
+            </Principal>
+            <Dependent Role="Loan">
+              <PropertyRef Name="WorkspaceID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK__LoanTool__LoanID__300424B4">
-          <End Role="Loan" Type="Self.Loan" Multiplicity="0..1">
+          <End Type="ToolTrackerModel.Loan" Role="Loan" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="LoanTool" Type="Self.LoanTool" Multiplicity="*" />
+          <End Type="ToolTrackerModel.LoanTool" Role="LoanTool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Loan">
+              <PropertyRef Name="LoanID" />
+            </Principal>
+            <Dependent Role="LoanTool">
+              <PropertyRef Name="LoanID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK__LoanTool__ToolID__30F848ED">
-          <End Role="Tool" Type="Self.Tool" Multiplicity="0..1">
+          <End Type="ToolTrackerModel.Tool" Role="Tool" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="LoanTool" Type="Self.LoanTool" Multiplicity="*" />
+          <End Type="ToolTrackerModel.LoanTool" Role="LoanTool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tool">
+              <PropertyRef Name="ToolID" />
+            </Principal>
+            <Dependent Role="LoanTool">
+              <PropertyRef Name="ToolID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ToolTrackerEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Borrowers" EntityType="Self.Borrower" />
-          <EntitySet Name="Brands" EntityType="Self.Brand" />
-          <EntitySet Name="Loans" EntityType="Self.Loan" />
-          <EntitySet Name="LoanTools" EntityType="Self.LoanTool" />
-          <EntitySet Name="Tools" EntityType="Self.Tool" />
-          <EntitySet Name="Workspaces" EntityType="Self.Workspace" />
-          <AssociationSet Name="FK__Loan__BorrowerID__2C3393D0" Association="Self.FK__Loan__BorrowerID__2C3393D0">
-            <End Role="Borrower" EntitySet="Borrowers" />
-            <End Role="Loan" EntitySet="Loans" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Tool__BrandID__29572725" Association="Self.FK__Tool__BrandID__29572725">
-            <End Role="Brand" EntitySet="Brands" />
-            <End Role="Tool" EntitySet="Tools" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Loan__WorkspaceI__2D27B809" Association="Self.FK__Loan__WorkspaceI__2D27B809">
-            <End Role="Workspace" EntitySet="Workspaces" />
-            <End Role="Loan" EntitySet="Loans" />
-          </AssociationSet>
-          <AssociationSet Name="FK__LoanTool__LoanID__300424B4" Association="Self.FK__LoanTool__LoanID__300424B4">
-            <End Role="Loan" EntitySet="Loans" />
-            <End Role="LoanTool" EntitySet="LoanTools" />
-          </AssociationSet>
-          <AssociationSet Name="FK__LoanTool__ToolID__30F848ED" Association="Self.FK__LoanTool__ToolID__30F848ED">
-            <End Role="Tool" EntitySet="Tools" />
-            <End Role="LoanTool" EntitySet="LoanTools" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -266,98 +332,69 @@
           <EntitySetMapping Name="Borrowers">
             <EntityTypeMapping TypeName="ToolTrackerModel.Borrower">
               <MappingFragment StoreEntitySet="Borrower">
-                <ScalarProperty Name="BorrowerID" ColumnName="BorrowerID" />
                 <ScalarProperty Name="BorrowerName" ColumnName="BorrowerName" />
+                <ScalarProperty Name="BorrowerID" ColumnName="BorrowerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Brands">
             <EntityTypeMapping TypeName="ToolTrackerModel.Brand">
               <MappingFragment StoreEntitySet="Brand">
-                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Loans">
             <EntityTypeMapping TypeName="ToolTrackerModel.Loan">
               <MappingFragment StoreEntitySet="Loan">
-                <ScalarProperty Name="LoanID" ColumnName="LoanID" />
-                <ScalarProperty Name="DateBorrowed" ColumnName="DateBorrowed" />
                 <ScalarProperty Name="DateReturned" ColumnName="DateReturned" />
+                <ScalarProperty Name="DateBorrowed" ColumnName="DateBorrowed" />
+                <ScalarProperty Name="WorkspaceID" ColumnName="WorkspaceID" />
+                <ScalarProperty Name="BorrowerID" ColumnName="BorrowerID" />
+                <ScalarProperty Name="LoanID" ColumnName="LoanID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LoanTools">
             <EntityTypeMapping TypeName="ToolTrackerModel.LoanTool">
               <MappingFragment StoreEntitySet="LoanTool">
+                <ScalarProperty Name="ToolID" ColumnName="ToolID" />
+                <ScalarProperty Name="LoanID" ColumnName="LoanID" />
                 <ScalarProperty Name="LoanToolID" ColumnName="LoanToolID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ToolTrackerModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tools">
             <EntityTypeMapping TypeName="ToolTrackerModel.Tool">
               <MappingFragment StoreEntitySet="Tool">
-                <ScalarProperty Name="ToolID" ColumnName="ToolID" />
-                <ScalarProperty Name="ToolName" ColumnName="ToolName" />
-                <ScalarProperty Name="Decomissioned" ColumnName="Decomissioned" />
                 <ScalarProperty Name="picFileName" ColumnName="picFileName" />
+                <ScalarProperty Name="Decomissioned" ColumnName="Decomissioned" />
+                <ScalarProperty Name="ToolName" ColumnName="ToolName" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="ToolID" ColumnName="ToolID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Workspaces">
             <EntityTypeMapping TypeName="ToolTrackerModel.Workspace">
               <MappingFragment StoreEntitySet="Workspace">
-                <ScalarProperty Name="WorkspaceID" ColumnName="WorkspaceID" />
                 <ScalarProperty Name="WorkspaceName" ColumnName="WorkspaceName" />
+                <ScalarProperty Name="WorkspaceID" ColumnName="WorkspaceID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="FK__Loan__BorrowerID__2C3393D0" TypeName="ToolTrackerModel.FK__Loan__BorrowerID__2C3393D0" StoreEntitySet="Loan">
-            <EndProperty Name="Borrower">
-              <ScalarProperty Name="BorrowerID" ColumnName="BorrowerID" />
-            </EndProperty>
-            <EndProperty Name="Loan">
-              <ScalarProperty Name="LoanID" ColumnName="LoanID" />
-            </EndProperty>
-            <Condition IsNull="false" ColumnName="BorrowerID" />
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK__Tool__BrandID__29572725" TypeName="ToolTrackerModel.FK__Tool__BrandID__29572725" StoreEntitySet="Tool">
-            <EndProperty Name="Brand">
-              <ScalarProperty Name="BrandID" ColumnName="BrandID" />
-            </EndProperty>
-            <EndProperty Name="Tool">
-              <ScalarProperty Name="ToolID" ColumnName="ToolID" />
-            </EndProperty>
-            <Condition IsNull="false" ColumnName="BrandID" />
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK__Loan__WorkspaceI__2D27B809" TypeName="ToolTrackerModel.FK__Loan__WorkspaceI__2D27B809" StoreEntitySet="Loan">
-            <EndProperty Name="Workspace">
-              <ScalarProperty Name="WorkspaceID" ColumnName="WorkspaceID" />
-            </EndProperty>
-            <EndProperty Name="Loan">
-              <ScalarProperty Name="LoanID" ColumnName="LoanID" />
-            </EndProperty>
-            <Condition IsNull="false" ColumnName="WorkspaceID" />
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK__LoanTool__LoanID__300424B4" TypeName="ToolTrackerModel.FK__LoanTool__LoanID__300424B4" StoreEntitySet="LoanTool">
-            <EndProperty Name="Loan">
-              <ScalarProperty Name="LoanID" ColumnName="LoanID" />
-            </EndProperty>
-            <EndProperty Name="LoanTool">
-              <ScalarProperty Name="LoanToolID" ColumnName="LoanToolID" />
-            </EndProperty>
-            <Condition IsNull="false" ColumnName="LoanID" />
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK__LoanTool__ToolID__30F848ED" TypeName="ToolTrackerModel.FK__LoanTool__ToolID__30F848ED" StoreEntitySet="LoanTool">
-            <EndProperty Name="Tool">
-              <ScalarProperty Name="ToolID" ColumnName="ToolID" />
-            </EndProperty>
-            <EndProperty Name="LoanTool">
-              <ScalarProperty Name="LoanToolID" ColumnName="LoanToolID" />
-            </EndProperty>
-            <Condition IsNull="false" ColumnName="ToolID" />
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -373,7 +410,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

@@ -29,6 +29,7 @@ namespace TT_WebAPI.Models
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Loan> Loans { get; set; }
         public virtual DbSet<LoanTool> LoanTools { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Tool> Tools { get; set; }
         public virtual DbSet<Workspace> Workspaces { get; set; }
     }

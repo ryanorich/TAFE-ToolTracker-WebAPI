@@ -21,6 +21,8 @@ namespace TT_WebAPI.Models
         }
     
         public int LoanID { get; set; }
+        public Nullable<int> BorrowerID { get; set; }
+        public Nullable<int> WorkspaceID { get; set; }
         public Nullable<System.DateTime> DateBorrowed { get; set; }
         public Nullable<System.DateTime> DateReturned { get; set; }
     

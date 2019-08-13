@@ -185,6 +185,9 @@
     <Compile Include="Models\LoanTool.cs">
       <DependentUpon>TTModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>TTModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tool.cs">
       <DependentUpon>TTModel.tt</DependentUpon>
     </Compile>
