@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a369b85b89364002a67c8aa3f87aea72" Name="Diagram1">
+        <EntityTypeShape EntityType="ToolTrackerModel.Borrower" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolTrackerModel.Brand" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolTrackerModel.Loan" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolTrackerModel.LoanTool" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolTrackerModel.Tool" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolTrackerModel.Workspace" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="ToolTrackerModel.FK__Loan__BorrowerID__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="ToolTrackerModel.FK__Tool__BrandID__29572725" ManuallyRouted="false" />
+        <AssociationConnector Association="ToolTrackerModel.FK__Loan__WorkspaceI__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="ToolTrackerModel.FK__LoanTool__LoanID__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="ToolTrackerModel.FK__LoanTool__ToolID__30F848ED" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
