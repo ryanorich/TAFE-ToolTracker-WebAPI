@@ -15,8 +15,8 @@ namespace TT_WebAPI.Models
     public partial class LoanTool
     {
         public int LoanToolID { get; set; }
-        public Nullable<int> LoanID { get; set; }
-        public Nullable<int> ToolID { get; set; }
+        public int LoanID { get; set; }
+        public int ToolID { get; set; }
     
         public virtual Loan Loan { get; set; }
         public virtual Tool Tool { get; set; }
