@@ -42,5 +42,19 @@ namespace TT_WebAPI.Controllers
             "GROUP BY Tool.ToolID, BrandName, ToolName, Decomissioned ";
             return db.Database.SqlQuery<ToolInventoryViewModel>(SQLQuery).ToList();
         }
+
+        [HttpGet]
+        [Route("api/Report/GetToolBorrowCount")]
+        public IEnumerable<ToolBorrowCountViewModel> GetToolBorrowCount()
+        {
+
+            string SQLQuery =
+                "SELECT Tool.ToolID, Tool.ToolName, COuNT(LoanToolID) AS BorrowCount, Tool.picFileName " +
+                "FROM Tool " +
+                "LEFT JOIN LoanTool ON Tool.ToolID = LoanTool.ToolID " +
+                "GROUP BY Tool.ToolID, Tool.ToolName, Tool.picFileName " +
+                "ORDER BY BorrowCount DESC ; ";
+            return db.Database.SqlQuery<ToolBorrowCountViewModel>(SQLQuery).ToList();
+        }
     }
 }

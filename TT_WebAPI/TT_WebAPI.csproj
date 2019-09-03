@@ -212,6 +212,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoanedToolsViewModel.cs" />
+    <Compile Include="ViewModels\ToolBorrowCountViewModel.cs" />
     <Compile Include="ViewModels\ToolInventoryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
