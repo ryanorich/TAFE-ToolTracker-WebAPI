@@ -53,7 +53,7 @@ namespace TT_WebAPI.Controllers
                 "FROM Tool " +
                 "LEFT JOIN LoanTool ON Tool.ToolID = LoanTool.ToolID " +
                 "GROUP BY Tool.ToolID, Tool.ToolName, Tool.picFileName " +
-                "ORDER BY BorrowCount DESC ; ";
+                "ORDER BY BorrowCount ASC ; ";
             return db.Database.SqlQuery<ToolBorrowCountViewModel>(SQLQuery).ToList();
         }
     }
