@@ -5,13 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a369b85b89364002a67c8aa3f87aea72" Name="Diagram1" ZoomLevel="112">
-        <EntityTypeShape EntityType="ToolTrackerModel.Borrower" Width="1.5" PointX="0.75" PointY="5.375" />
-        <EntityTypeShape EntityType="ToolTrackerModel.Brand" Width="1.5" PointX="0.75" PointY="8.375" />
-        <EntityTypeShape EntityType="ToolTrackerModel.Loan" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="ToolTrackerModel.LoanTool" Width="1.5" PointX="5.25" PointY="1.25" />
-        <EntityTypeShape EntityType="ToolTrackerModel.sysdiagram" Width="1.5" PointX="2.75" PointY="4.75" />
-        <EntityTypeShape EntityType="ToolTrackerModel.Tool" Width="1.5" PointX="3" PointY="8" />
-        <EntityTypeShape EntityType="ToolTrackerModel.Workspace" Width="1.5" PointX="0.75" PointY="1.375" />
+        <EntityTypeShape EntityType="ToolTrackerModel.Borrower" Width="1.5" PointX="0.5" PointY="2.375" />
+        <EntityTypeShape EntityType="ToolTrackerModel.Brand" Width="1.5" PointX="2.5" PointY="3.25" />
+        <EntityTypeShape EntityType="ToolTrackerModel.Loan" Width="1.5" PointX="2.5" PointY="0.5" />
+        <EntityTypeShape EntityType="ToolTrackerModel.LoanTool" Width="1.5" PointX="4.5" PointY="0.5" />
+        <EntityTypeShape EntityType="ToolTrackerModel.sysdiagram" Width="1.5" PointX="10.125" PointY="1.5" />
+        <EntityTypeShape EntityType="ToolTrackerModel.Tool" Width="1.5" PointX="4.5" PointY="2.75" />
+        <EntityTypeShape EntityType="ToolTrackerModel.Workspace" Width="1.5" PointX="0.5" PointY="0.5" />
         <AssociationConnector Association="ToolTrackerModel.FK__Loan__BorrowerID__2C3393D0" />
         <AssociationConnector Association="ToolTrackerModel.FK__Tool__BrandID__29572725" />
         <AssociationConnector Association="ToolTrackerModel.FK__Loan__WorkspaceI__2D27B809" />

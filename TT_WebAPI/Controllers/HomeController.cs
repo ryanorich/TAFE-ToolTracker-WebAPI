@@ -6,6 +6,9 @@ using System.Web.Mvc;
 
 namespace TT_WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for the default home page
+	/// </summary>
     public class HomeController : Controller
     {
         public ActionResult Index()

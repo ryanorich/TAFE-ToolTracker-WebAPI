@@ -10,10 +10,14 @@ using TT_WebAPI.ViewModels;
 
 namespace TT_WebAPI.Controllers
 {
+	/// <summary>
+	/// Controler for reports
+	/// </summary>
     public class ReportController : ApiController
     {
         private ToolTrackerEntities db = new ToolTrackerEntities();
 
+		// Retrieves data for the Loaned Tools report
         [HttpGet]
         [Route("api/Report/GetLoanedToolsReport")]
         public IEnumerable<LoanedToolsViewModel> GetLoanedToolsReport()
@@ -29,6 +33,7 @@ namespace TT_WebAPI.Controllers
             return db.Database.SqlQuery<LoanedToolsViewModel>(SQLQuery).ToList();
         }
 
+		// Retrieves data for the Tool Inventory report
         [HttpGet]
         [Route("api/Report/GetToolInventoryReport")]
         public IEnumerable<ToolInventoryViewModel> GetToolInventoryReport()
@@ -43,11 +48,11 @@ namespace TT_WebAPI.Controllers
             return db.Database.SqlQuery<ToolInventoryViewModel>(SQLQuery).ToList();
         }
 
+		// Retrieves data for the list of tools with the count times borrowed
         [HttpGet]
         [Route("api/Report/GetToolBorrowCount")]
         public IEnumerable<ToolBorrowCountViewModel> GetToolBorrowCount()
         {
-
             string SQLQuery =
                 "SELECT Tool.ToolID, Tool.ToolName, COuNT(LoanToolID) AS BorrowCount, Tool.picFileName " +
                 "FROM Tool " +

@@ -12,6 +12,9 @@ using TT_WebAPI.Models;
 
 namespace TT_WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for the Workspace table
+	/// </summary>
     public class WorkspaceController : ApiController
     {
         private ToolTrackerEntities db = new ToolTrackerEntities();
@@ -101,6 +104,7 @@ namespace TT_WebAPI.Controllers
             return Ok(workspace);
         }
 
+		// Releases unmanaged resources
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -110,6 +114,7 @@ namespace TT_WebAPI.Controllers
             base.Dispose(disposing);
         }
 
+		// Checks if a workspace exists
         private bool WorkspaceExists(int id)
         {
             return db.Workspaces.Count(e => e.WorkspaceID == id) > 0;

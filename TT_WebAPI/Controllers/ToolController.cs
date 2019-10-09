@@ -12,6 +12,9 @@ using TT_WebAPI.Models;
 
 namespace TT_WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for the Tool table
+	/// </summary>
     public class ToolController : ApiController
     {
         private ToolTrackerEntities db = new ToolTrackerEntities();
@@ -101,6 +104,7 @@ namespace TT_WebAPI.Controllers
             return Ok(tool);
         }
 
+		// Releases unmanaged reousrces
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -110,6 +114,7 @@ namespace TT_WebAPI.Controllers
             base.Dispose(disposing);
         }
 
+		// Checks a the tool exists
         private bool ToolExists(int id)
         {
             return db.Tools.Count(e => e.ToolID == id) > 0;

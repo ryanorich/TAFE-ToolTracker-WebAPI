@@ -5,18 +5,20 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using TT_WebAPI.Models;
 
 namespace TT_WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for the Brand table
+	/// </summary>
     public class BrandController : ApiController
     {
         private ToolTrackerEntities db = new ToolTrackerEntities();
-
-        // GET: api/Brand
+        
+		// GET: api/Brand
         public IQueryable<Brand> GetBrands()
         {
             return db.Brands;
@@ -31,7 +33,6 @@ namespace TT_WebAPI.Controllers
             {
                 return NotFound();
             }
-
             return Ok(brand);
         }
 
@@ -43,14 +44,11 @@ namespace TT_WebAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             if (id != brand.BrandID)
             {
                 return BadRequest();
             }
-
             db.Entry(brand).State = EntityState.Modified;
-
             try
             {
                 db.SaveChanges();
@@ -66,7 +64,6 @@ namespace TT_WebAPI.Controllers
                     throw;
                 }
             }
-
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -78,10 +75,8 @@ namespace TT_WebAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             db.Brands.Add(brand);
             db.SaveChanges();
-
             return CreatedAtRoute("DefaultApi", new { id = brand.BrandID }, brand);
         }
 
@@ -94,13 +89,12 @@ namespace TT_WebAPI.Controllers
             {
                 return NotFound();
             }
-
             db.Brands.Remove(brand);
             db.SaveChanges();
-
             return Ok(brand);
         }
 
+		// Releases unmanaged resources
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -110,6 +104,7 @@ namespace TT_WebAPI.Controllers
             base.Dispose(disposing);
         }
 
+		// Checks if the brand ID is recorded in the database
         private bool BrandExists(int id)
         {
             return db.Brands.Count(e => e.BrandID == id) > 0;

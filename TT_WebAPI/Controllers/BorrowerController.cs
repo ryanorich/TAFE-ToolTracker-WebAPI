@@ -12,6 +12,9 @@ using TT_WebAPI.Models;
 
 namespace TT_WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for the Borrower table
+	/// </summary>
     public class BorrowerController : ApiController
     {
         private ToolTrackerEntities db = new ToolTrackerEntities();
@@ -101,6 +104,7 @@ namespace TT_WebAPI.Controllers
             return Ok(borrower);
         }
 
+		// Released Unmanaged Resources
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -110,6 +114,7 @@ namespace TT_WebAPI.Controllers
             base.Dispose(disposing);
         }
 
+		// Checks if the Borrower exists in the database
         private bool BorrowerExists(int id)
         {
             return db.Borrowers.Count(e => e.BorrowerID == id) > 0;

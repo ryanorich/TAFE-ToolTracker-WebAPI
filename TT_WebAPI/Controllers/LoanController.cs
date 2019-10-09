@@ -12,6 +12,9 @@ using TT_WebAPI.Models;
 
 namespace TT_WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for the Tool table
+	/// </summary>
     public class LoanController : ApiController
     {
         private ToolTrackerEntities db = new ToolTrackerEntities();
@@ -101,6 +104,7 @@ namespace TT_WebAPI.Controllers
             return Ok(loan);
         }
 
+		// Releases unmanaged resources
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -110,6 +114,7 @@ namespace TT_WebAPI.Controllers
             base.Dispose(disposing);
         }
 
+		// Checks if loan exists
         private bool LoanExists(int id)
         {
             return db.Loans.Count(e => e.LoanID == id) > 0;
